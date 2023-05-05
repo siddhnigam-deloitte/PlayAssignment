@@ -49,6 +49,8 @@ class MatchDataDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
   def getMatchDetail(id: Int): Future[Seq[MatchData]] =
     db.run(matchTableQuery.filter(_.id === id).result)
 
+  def getmatchesbyteam(team: String): Future[Seq[MatchData]] =
+    db.run(matchTableQuery.filter(_.team1 === team).result)
 
 
 }

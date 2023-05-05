@@ -34,5 +34,8 @@ class MatchController @Inject()(val matchDataDao: MatchDataDao,
     matchDataDao.fetchAll().map(x => Ok(Json.toJson(x)))
   }
 
+  def getmatchesbyteam(team:String): Action[AnyContent] = Action.async { _ =>
+    matchDataDao.getmatchesbyteam(team).map(x => Ok(Json.toJson(x)))
+  }
 
 }
