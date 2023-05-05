@@ -20,23 +20,22 @@ class ActorInit @Inject()(matchDataDao: MatchDataDao,teamsDao: TeamsDao,venueDao
     val teams = collection.mutable.Set[String]()
     val winners=collection.mutable.ListBuffer[String]()
     val matchList: Seq[MatchData] = Await.result(Matchlistfuture, Duration.Inf)
-    val teamf=teamsDao.fetchAll()
-    val teamList: Seq[Teams] = Await.result(teamf, Duration.Inf)
     for(m<-matchList)
       {
+        teams += m.team1
         winners += m.winner
       }
 
-      for(t<-teamList) {
+      for(t<-teams) {
         var count=0;
         {
           for(w<-winners)
             {
-              if(w.equalsIgnoreCase(t.teams)) {
+              if(w.equalsIgnoreCase(t)) {
                 count+=1
               }
             }
-            teamsWinDao.insert(new TeamsWin(None,t.teams,count))
+            teamsWinDao.insert(new TeamsWin(None,t,count))
         }
       }
   }
